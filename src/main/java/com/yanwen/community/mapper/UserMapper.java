@@ -3,6 +3,9 @@ package com.yanwen.community.mapper;
 import com.yanwen.community.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 
 /**
  * @author likeyou
@@ -12,6 +15,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
-    @Insert("insert into user (account_id,name,token,gmt_great,gmt_modified) values (#{accountId},#{name},#{token},#{gmtGreat},#{gmtModified})")
+    @Insert("insert into user (account_id,name,token,gmt_creat,gmt_modified) values (#{accountId},#{name},#{token},#{gmtCreat},#{gmtModified})")
     void insert(User user);
+
+    @Select("select * from user where token=#{token}")
+    User findByToken(@Param("token") String token);
 }
