@@ -48,13 +48,24 @@ public class AuthorizeController {
 
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret(clientSecret);
-        accessTokenDTO.setRedirect_uri(clientUrl);
+        accessTokenDTO.setClientId(clientId);
+        accessTokenDTO.setClientSecret(clientSecret);
+        accessTokenDTO.setRedirectUri(clientUrl);
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         System.out.println(githubUser.getName());
+        if(githubUser==null)
+            System.out.println("githubUser为空指");
+        if(githubUser.getId()==null){
+            System.out.println("githubUser.getId()为空");
+        }
+        System.out.println(githubUser.getName());
+        System.out.println(githubUser.getId());
+        System.out.println(githubUser.getAvatarUrl());
+        System.out.println(githubUser.getBio());
+        System.out.println(githubUser.getName());
+
         if(githubUser!=null){
             //登录成功,写入cookie和session
 
@@ -68,6 +79,11 @@ public class AuthorizeController {
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
            request.getSession().setAttribute("githubUser",githubUser);
+            System.out.println(githubUser.getName());
+            System.out.println(githubUser.getId());
+            System.out.println(githubUser.getAvatarUrl());
+            System.out.println(githubUser.getBio());
+            System.out.println(githubUser.getName());
            return "redirect:/"; //返回主页
         }
         else{
